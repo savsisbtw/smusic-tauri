@@ -1,0 +1,15 @@
+[Unit]
+Description=sMusic cover art relay
+After=network.target
+
+[Service]
+Type=simple
+User=smusiccover
+WorkingDirectory=/opt/smusic-cover
+Environment=SMUSIC_COVER_SECRET=CHANGE_ME
+Environment=SMUSIC_COVER_FILE=/opt/smusic-cover/cover.jpg
+ExecStart=/opt/smusic-cover/venv/bin/uvicorn main:app --host 127.0.0.1 --port 8090
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

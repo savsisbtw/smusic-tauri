@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>sMusic</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <svg class="grain">
+      <filter id="noise">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" result="n" />
+        <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.05 0" />
+      </filter>
+      <rect width="100%" height="100%" fill="transparent" filter="url(#noise)" />
+    </svg>
+    <div class="bg-grid"></div>
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <div class="titlebar" data-tauri-drag-region>
+      <span class="titlebar-label" data-tauri-drag-region>sMusic</span>
+      <div class="titlebar-buttons">
+        <button id="btn-hide" title="Свернуть в трей">–</button>
+      </div>
+    </div>
+
+    <nav class="tabs">
+      <button class="tab active" data-view="now-playing">СЕЙЧАС ИГРАЕТ</button>
+      <button class="tab" data-view="library">БИБЛИОТЕКА</button>
+      <button class="tab" data-view="settings">НАСТРОЙКИ</button>
+    </nav>
+
+    <main>
+      <section id="view-now-playing" class="view active">
+        <div class="cover-stack">
+          <img id="cover-a" class="cover-layer" src="" alt="" />
+          <img id="cover-b" class="cover-layer" src="" alt="" />
+        </div>
+        <div class="now-playing-info">
+          <div id="track-title" class="track-title">ничего не играет</div>
+          <div id="track-artist" class="track-artist"></div>
+        </div>
+        <div class="progress">
+          <span id="time-elapsed" class="time">0:00</span>
+          <div id="progress-track" class="progress-track">
+            <div id="progress-fill" class="progress-fill"></div>
+            <div id="progress-thumb" class="progress-thumb"></div>
+          </div>
+          <span id="time-remaining" class="time">-0:00</span>
+        </div>
+        <div class="transport">
+          <button id="btn-prev" class="transport-btn" title="Предыдущий">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM20 5v14l-11-7z" /></svg>
+          </button>
+          <button id="btn-play" class="transport-btn transport-btn-main" title="Пуск/пауза">
+            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l14 8-14 8z" /></svg>
+            <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4h4v16H6zM14 4h4v16h-4z" /></svg>
+          </button>
+          <button id="btn-next" class="transport-btn" title="Следующий">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM4 5v14l11-7z" /></svg>
+          </button>
+        </div>
+        <div class="volume">
+          <input id="volume-slider" type="range" min="0" max="100" value="100" />
+        </div>
+      </section>
+
+      <section id="view-library" class="view">
+        <div class="library-toolbar">
+          <button id="btn-add-folder">+ ПАПКА</button>
+          <button id="btn-rescan">ОБНОВИТЬ</button>
+          <input id="library-search" type="text" placeholder="поиск" />
+        </div>
+        <div id="library-list" class="library-list"></div>
+        <div id="library-empty" class="library-empty active">
+          <span><span id="idle-typewriter" class="term"></span><span class="term-cursor">_</span></span>
+        </div>
+      </section>
+
+      <section id="view-settings" class="view">
+        <div class="settings-row">
+          <label>Discord Rich Presence</label>
+          <input id="toggle-discord" type="checkbox" checked />
+        </div>
+        <div class="settings-row" style="align-items: flex-start; flex-direction: column; gap: 8px">
+          <label>Папки библиотеки</label>
+          <div id="folder-list" style="width: 100%"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="tauri-bridge.js"></script>
+    <script src="player.js"></script>
+    <script src="library.js"></script>
+    <script src="views.js"></script>
+    <script src="animations.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
